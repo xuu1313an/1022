@@ -1,0 +1,1797 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>血色霧社 1930：歷史的烙印與抉擇</title>
+  
+  <!-- Fonts: Google Fonts Noto Serif TC & Noto Sans TC -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&family=Noto+Serif+TC:wght@600;700;900&display=swap" rel="stylesheet">
+  
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <!-- Anime.js CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+  <!-- Canvas Confetti CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+  <style>
+    /* ==========================================================================
+       1. Design Tokens & Design System
+       ========================================================================== */
+    :root {
+      /* Palette */
+      --bg-paper: #F4F0E8;        /* Antique parchment */
+      --bg-card: #EBE5D8;         /* Subtly darker card base */
+      --bg-dark: #1C1512;         /* Deep obsidian brown */
+      --text-main: #2C221E;       /* Deep warm brown */
+      --text-muted: #5C4F4A;      /* Medium muted brown */
+      --text-light: #E2D9CC;      /* Light parchment text */
+      --primary-red: #8B261E;     /* Crimson / blood red accent */
+      --primary-red-hover: #A62F26;
+      --accent-gold: #C29B38;      /* Antique gold */
+      --border-color: #D3C9B8;    /* Parchment border */
+      --shadow-sm: 0 4px 12px rgba(44, 34, 30, 0.08);
+      --shadow-lg: 0 12px 30px rgba(44, 34, 30, 0.15);
+
+      /* Typography */
+      --font-heading: 'Noto Serif TC', serif;
+      --font-body: 'Noto Sans TC', sans-serif;
+
+      /* Metrics */
+      --max-width: 1200px;
+      --nav-height: 70px;
+      --transition-fast: 0.25s ease;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      font-size: 16px;
+    }
+
+    body {
+      background-color: var(--bg-paper);
+      color: var(--text-main);
+      font-family: var(--font-body);
+      line-height: 1.85;
+      letter-spacing: 0.03em;
+      overflow-x: hidden;
+      /* Subtle vintage paper texture grain overlay */
+      background-image: radial-gradient(#d3c9b8 0.6px, transparent 0.6px);
+      background-size: 24px 24px;
+    }
+
+    /* Links & Utility */
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .container {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* Section Headers */
+    .section-header {
+      text-align: center;
+      margin-bottom: 3.5rem;
+    }
+
+    .section-title {
+      font-family: var(--font-heading);
+      font-size: 2.4rem;
+      color: var(--primary-red);
+      margin-bottom: 0.75rem;
+      position: relative;
+      display: inline-block;
+    }
+
+    .section-title::after {
+      content: '';
+      display: block;
+      width: 70%;
+      height: 3px;
+      background: linear-gradient(90deg, transparent, var(--primary-red), transparent);
+      margin: 12px auto 0;
+    }
+
+    .section-subtitle {
+      color: var(--text-muted);
+      font-size: 1.05rem;
+      max-width: 650px;
+      margin: 0 auto;
+    }
+
+    /* ==========================================================================
+       2. Navigation Bar
+       ========================================================================== */
+    .navbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: var(--nav-height);
+      background-color: rgba(28, 21, 18, 0.94);
+      backdrop-filter: blur(10px);
+      z-index: 1000;
+      border-bottom: 1px solid rgba(194, 155, 56, 0.2);
+      transition: background-color var(--transition-fast);
+    }
+
+    .navbar .container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: 100%;
+    }
+
+    .logo {
+      font-family: var(--font-heading);
+      font-size: 1.4rem;
+      font-weight: 900;
+      color: #F4F0E8;
+      letter-spacing: 0.1em;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .logo span {
+      color: var(--primary-red);
+      font-size: 0.9em;
+      border-left: 2px solid var(--accent-gold);
+      padding-left: 8px;
+    }
+
+    .nav-links {
+      display: flex;
+      list-style: none;
+      gap: 2.2rem;
+    }
+
+    .nav-links a {
+      color: #D3C9B8;
+      font-size: 0.95rem;
+      font-weight: 500;
+      position: relative;
+      padding: 4px 0;
+      transition: color var(--transition-fast);
+    }
+
+    .nav-links a:hover {
+      color: #FFFFFF;
+    }
+
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background-color: var(--primary-red);
+      transition: width 0.3s ease;
+    }
+
+    .nav-links a:hover::after {
+      width: 100%;
+    }
+
+    /* Mobile Menu Toggle */
+    .mobile-menu-btn {
+      display: none;
+      background: none;
+      border: none;
+      color: #F4F0E8;
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+
+    /* ==========================================================================
+       3. Hero Banner (Page Load Fade-In Animation)
+       ========================================================================== */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      background: linear-gradient(180deg, rgba(28, 21, 18, 0.75) 0%, rgba(28, 21, 18, 0.92) 100%),
+                  url('https://images.unsplash.com/photo-1511497584788-876761011935?q=80&w=1600&auto=format&fit=crop') center/cover no-repeat;
+      color: #F4F0E8;
+      padding: calc(var(--nav-height) + 40px) 20px 80px;
+    }
+
+    .hero-content {
+      max-width: 850px;
+      z-index: 2;
+    }
+
+    .hero-anim-item {
+      opacity: 0; /* Animated by Anime.js on load */
+      transform: translateY(30px);
+    }
+
+    .hero-tag {
+      display: inline-block;
+      font-size: 0.85rem;
+      letter-spacing: 0.3em;
+      color: var(--accent-gold);
+      border: 1px solid var(--accent-gold);
+      padding: 6px 20px;
+      margin-bottom: 1.8rem;
+      background-color: rgba(194, 155, 56, 0.08);
+      border-radius: 2px;
+    }
+
+    .hero-title {
+      font-family: var(--font-heading);
+      font-size: 3.6rem;
+      font-weight: 900;
+      line-height: 1.25;
+      margin-bottom: 1.5rem;
+      text-shadow: 0 4px 15px rgba(0, 0, 0, 0.6);
+      letter-spacing: 0.05em;
+    }
+
+    .hero-subtitle {
+      font-size: 1.2rem;
+      color: #D3C9B8;
+      margin-bottom: 2.5rem;
+      font-weight: 300;
+      line-height: 1.9;
+    }
+
+    .hero-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 40px;
+      background-color: var(--primary-red);
+      color: #FFFFFF;
+      font-size: 1.05rem;
+      font-weight: 500;
+      border: none;
+      border-radius: 3px;
+      cursor: pointer;
+      box-shadow: 0 4px 20px rgba(139, 38, 30, 0.5);
+      transition: background-color var(--transition-fast), transform var(--transition-fast);
+    }
+
+    .hero-btn:hover {
+      background-color: var(--primary-red-hover);
+      transform: translateY(-2px);
+    }
+
+    /* 為 Hero 內容加入平滑視差轉場效果 */
+    .hero-content {
+      will-change: transform, opacity;
+      transition: transform 0.1s linear, opacity 0.1s linear;
+    }
+
+    .scroll-indicator {
+      position: absolute;
+      bottom: 25px;
+      left: 50%;
+      transform: translateX(-50%);
+      color: var(--accent-gold);
+      font-size: 1.2rem;
+      animation: bounce 2s infinite;
+      cursor: pointer;
+      opacity: 0.8;
+    }
+
+    @keyframes bounce {
+      0%, 20%, 50%, 80%, 100% { transform: translate(-50%, 0); }
+      40% { transform: translate(-50%, -10px); }
+      60% { transform: translate(-50%, -5px); }
+    }
+
+    /* ==========================================================================
+       4. Historical Background (Scroll Slide-In Animation)
+       ========================================================================== */
+    .section-background {
+      padding: 100px 0;
+    }
+
+    .background-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3.5rem;
+      align-items: center;
+    }
+
+    .reveal-card {
+      opacity: 0; /* Animated by Anime.js via Observer */
+      transform: translateY(40px);
+    }
+
+    .bg-card {
+      background-color: var(--bg-card);
+      padding: 2.8rem;
+      border: 1px solid var(--border-color);
+      border-left: 5px solid var(--primary-red);
+      box-shadow: var(--shadow-sm);
+      position: relative;
+    }
+
+    .bg-card h3 {
+      font-family: var(--font-heading);
+      font-size: 1.6rem;
+      color: var(--primary-red);
+      margin-bottom: 1.2rem;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .bg-card h3 i {
+      font-size: 1.2rem;
+      color: var(--accent-gold);
+    }
+
+    .bg-card p {
+      color: var(--text-main);
+      margin-bottom: 1.2rem;
+      text-align: justify;
+    }
+
+    .bg-card p:last-child {
+      margin-bottom: 0;
+    }
+
+    .bg-image-container {
+      position: relative;
+      height: 420px;
+      border-radius: 4px;
+      overflow: hidden;
+      border: 8px solid var(--bg-card);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .bg-image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: sepia(35%) contrast(105%);
+      transition: transform 0.6s ease;
+    }
+
+    .bg-image-container:hover .bg-image {
+      transform: scale(1.04);
+    }
+
+    .image-caption {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      padding: 12px 20px;
+      background: linear-gradient(180deg, transparent, rgba(28, 21, 18, 0.9));
+      color: #F4F0E8;
+      font-size: 0.85rem;
+      letter-spacing: 0.05em;
+    }
+
+    /* ==========================================================================
+       5. Key Figures Section (Hover Anime.js Micro-Interactions)
+       ========================================================================== */
+    .section-figures {
+      padding: 100px 0;
+      background-color: rgba(235, 229, 216, 0.5);
+      border-top: 1px solid var(--border-color);
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .figures-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 2.5rem;
+    }
+
+    .figure-card {
+      background-color: var(--bg-paper);
+      border: 1px solid var(--border-color);
+      border-radius: 4px;
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+      cursor: pointer;
+      position: relative;
+      opacity: 0; /* Observer target */
+      transform: translateY(40px);
+    }
+
+    .figure-header {
+      height: 220px;
+      position: relative;
+      overflow: hidden;
+      background-color: #2C221E;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #2C221E 0%, #1A1310 100%);
+    }
+
+    .figure-header svg {
+      transition: transform 0.5s ease;
+    }
+
+    .figure-card:hover .figure-header svg {
+      transform: scale(1.1);
+    }
+
+    .figure-badge {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      background-color: var(--primary-red);
+      color: #FFF;
+      font-size: 0.75rem;
+      padding: 4px 12px;
+      border-radius: 20px;
+      letter-spacing: 0.05em;
+      font-weight: 500;
+    }
+
+    .figure-body {
+      padding: 2rem;
+    }
+
+    .figure-name {
+      font-family: var(--font-heading);
+      font-size: 1.6rem;
+      color: var(--text-main);
+      margin-bottom: 0.4rem;
+    }
+
+    .figure-identity {
+      font-size: 0.9rem;
+      color: var(--primary-red);
+      font-weight: 700;
+      margin-bottom: 1.2rem;
+    }
+
+    .figure-quote {
+      font-style: italic;
+      color: var(--text-muted);
+      border-left: 3px solid var(--accent-gold);
+      padding-left: 12px;
+      margin-bottom: 1.2rem;
+      font-size: 0.95rem;
+      line-height: 1.7;
+    }
+
+    .figure-desc {
+      font-size: 0.95rem;
+      color: var(--text-main);
+      line-height: 1.75;
+    }
+
+    /* ==========================================================================
+       6. Interactive Timeline Section (Click Expansion & Transitions)
+       ========================================================================== */
+    .section-timeline {
+      padding: 100px 0;
+      background: linear-gradient(180deg, #1A0807 0%, #3B0D0A 50%, #1F0A08 100%);
+      color: #F4F0E8;
+      position: relative;
+      border-top: 1px solid rgba(139, 38, 30, 0.4);
+      border-bottom: 1px solid rgba(139, 38, 30, 0.4);
+      box-shadow: inset 0 0 100px rgba(0, 0, 0, 0.8);
+    }
+
+    .section-timeline .section-title {
+      color: #E6B8B8;
+      text-shadow: 0 0 15px rgba(139, 38, 30, 0.6);
+    }
+
+    .section-timeline .section-title::after {
+      background: linear-gradient(90deg, transparent, #8B261E, transparent);
+    }
+
+    .section-timeline .section-subtitle {
+      color: #CBB4B2;
+    }
+
+    .timeline-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: relative;
+      margin: 4rem 0 3rem;
+      padding: 0 20px;
+    }
+
+    .timeline-line {
+      position: absolute;
+      top: 50%;
+      left: 0;
+      width: 100%;
+      height: 3px;
+      background-color: rgba(255, 255, 255, 0.15);
+      z-index: 1;
+      transform: translateY(-50%);
+    }
+
+    .timeline-progress {
+      position: absolute;
+      top: 50%;
+      left: 0;
+      width: 25%; /* Dynamically animated via JS */
+      height: 3px;
+      background-color: var(--primary-red);
+      z-index: 2;
+      transform: translateY(-50%);
+      transition: width 0.4s ease;
+      box-shadow: 0 0 10px rgba(139, 38, 30, 0.8);
+    }
+
+    .timeline-node {
+      position: relative;
+      z-index: 3;
+      background-color: #2A100E;
+      border: 3px solid #5A1E19;
+      width: 54px;
+      height: 54px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: border-color 0.3s ease, background-color 0.3s ease;
+    }
+
+    .timeline-node.active {
+      border-color: #E6392B;
+      background-color: var(--primary-red);
+      color: #FFF;
+      box-shadow: 0 0 15px rgba(230, 57, 43, 0.7);
+    }
+
+    .timeline-node i {
+      font-size: 1.1rem;
+      color: #A88E8B;
+    }
+
+    .timeline-node.active i {
+      color: #FFF;
+    }
+
+    .node-label {
+      position: absolute;
+      top: 65px;
+      left: 50%;
+      transform: translateX(-50%);
+      white-space: nowrap;
+      font-family: var(--font-heading);
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: #B39B98;
+    }
+
+    .timeline-node.active .node-label {
+      color: #FFA3A3;
+      text-shadow: 0 0 8px rgba(139, 38, 30, 0.8);
+    }
+
+    /* Timeline Detail Display Box */
+    .timeline-display {
+      background-color: rgba(28, 10, 8, 0.85);
+      border: 1px solid rgba(139, 38, 30, 0.5);
+      border-radius: 4px;
+      padding: 3rem;
+      margin-top: 4rem;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), inset 0 0 20px rgba(139, 38, 30, 0.2);
+      position: relative;
+      min-height: 260px;
+      opacity: 0; /* Animated into view on scroll */
+      transform: translateY(30px);
+    }
+
+    .timeline-content-pane {
+      display: none;
+      opacity: 0;
+    }
+
+    .timeline-content-pane.active {
+      display: block;
+      opacity: 1; /* Ensure active pane is fully visible */
+    }
+
+    .timeline-date {
+      display: inline-block;
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: #FFF;
+      background-color: var(--primary-red);
+      padding: 4px 14px;
+      border-radius: 2px;
+      margin-bottom: 1rem;
+      letter-spacing: 0.05em;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+    }
+
+    .timeline-title {
+      font-family: var(--font-heading);
+      font-size: 1.8rem;
+      color: #F8E5E5;
+      margin-bottom: 1rem;
+    }
+
+    .timeline-body {
+      color: #DCD0CE;
+      font-size: 1.05rem;
+      line-height: 1.85;
+      text-align: justify;
+    }
+
+    .timeline-tags {
+      margin-top: 1.5rem;
+      display: flex;
+      gap: 10px;
+    }
+
+    .timeline-tag {
+      font-size: 0.8rem;
+      color: #E6B8B8;
+      background-color: rgba(139, 38, 30, 0.3);
+      border: 1px solid rgba(139, 38, 30, 0.5);
+      padding: 3px 10px;
+      border-radius: 3px;
+    }
+
+    /* ==========================================================================
+       7. Conclusion & Reflection
+       ========================================================================== */
+    .section-conclusion {
+      padding: 100px 0;
+      background-color: var(--bg-dark);
+      color: var(--text-light);
+    }
+
+    .conclusion-box {
+      max-width: 800px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .section-conclusion .section-title {
+      color: var(--accent-gold);
+    }
+
+    .section-conclusion .section-title::after {
+      background: linear-gradient(90deg, transparent, var(--accent-gold), transparent);
+    }
+
+    .conclusion-text {
+      font-size: 1.15rem;
+      line-height: 2;
+      color: #D3C9B8;
+      margin-bottom: 3.5rem;
+      font-weight: 300;
+    }
+
+    .references-box {
+      text-align: left;
+      background-color: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(194, 155, 56, 0.25);
+      border-left: 4px solid var(--accent-gold);
+      padding: 2rem 2.5rem;
+      border-radius: 2px;
+      margin-bottom: 4rem;
+    }
+
+    .references-box h4 {
+      font-family: var(--font-heading);
+      color: var(--accent-gold);
+      font-size: 1.15rem;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .references-list {
+      list-style-position: inside;
+      color: #A89F91;
+      font-size: 0.95rem;
+      line-height: 1.9;
+    }
+
+    /* ==========================================================================
+       7.5 Quiz Section (隨堂小測驗區域)
+       ========================================================================== */
+    .quiz-container {
+      text-align: left;
+      background-color: rgba(255, 255, 255, 0.025);
+      border: 1px solid rgba(194, 155, 56, 0.2);
+      border-radius: 4px;
+      padding: 2.5rem;
+      margin-top: 2rem;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+    }
+
+    .quiz-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid rgba(194, 155, 56, 0.2);
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .quiz-title {
+      font-family: var(--font-heading);
+      font-size: 1.4rem;
+      color: var(--accent-gold);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .quiz-score-badge {
+      background-color: rgba(194, 155, 56, 0.15);
+      border: 1px solid var(--accent-gold);
+      color: #F4F0E8;
+      padding: 6px 16px;
+      border-radius: 20px;
+      font-weight: 700;
+      font-size: 1.05rem;
+      letter-spacing: 0.05em;
+    }
+
+    .quiz-score-badge span {
+      color: var(--accent-gold);
+      font-size: 1.25rem;
+    }
+
+    .quiz-card {
+      background-color: rgba(0, 0, 0, 0.25);
+      border: 1px solid rgba(213, 201, 184, 0.15);
+      border-radius: 4px;
+      padding: 1.8rem;
+      margin-bottom: 1.8rem;
+      transition: border-color 0.3s ease;
+    }
+
+    .quiz-card.answered-correct {
+      border-color: #4CAF50;
+    }
+
+    .quiz-card.answered-wrong {
+      border-color: var(--primary-red);
+    }
+
+    .quiz-question-num {
+      display: inline-block;
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--accent-gold);
+      background-color: rgba(194, 155, 56, 0.1);
+      padding: 2px 10px;
+      border-radius: 3px;
+      margin-bottom: 0.8rem;
+    }
+
+    .quiz-question-text {
+      font-size: 1.1rem;
+      color: #E2D9CC;
+      font-weight: 500;
+      margin-bottom: 1.2rem;
+      line-height: 1.6;
+    }
+
+    .quiz-options {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.8rem;
+    }
+
+    @media (max-width: 768px) {
+      .quiz-options {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .quiz-option-btn {
+      background-color: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(213, 201, 184, 0.2);
+      color: #D3C9B8;
+      padding: 12px 16px;
+      border-radius: 3px;
+      text-align: left;
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+    }
+
+    .quiz-option-btn:hover:not(:disabled) {
+      background-color: rgba(194, 155, 56, 0.15);
+      border-color: var(--accent-gold);
+      color: #FFF;
+    }
+
+    .quiz-option-btn:disabled {
+      cursor: not-allowed;
+      opacity: 0.7;
+    }
+
+    .quiz-option-btn.selected-correct {
+      background-color: rgba(76, 175, 80, 0.25) !important;
+      border-color: #4CAF50 !important;
+      color: #A5D6A7 !important;
+      font-weight: 700;
+    }
+
+    .quiz-option-btn.selected-wrong {
+      background-color: rgba(139, 38, 30, 0.35) !important;
+      border-color: var(--primary-red) !important;
+      color: #EF9A9A !important;
+    }
+
+    .quiz-feedback {
+      margin-top: 1rem;
+      padding: 10px 14px;
+      border-radius: 3px;
+      font-size: 0.9rem;
+      display: none;
+      line-height: 1.6;
+    }
+
+    .quiz-feedback.correct {
+      display: block;
+      background-color: rgba(76, 175, 80, 0.15);
+      border-left: 3px solid #4CAF50;
+      color: #C8E6C9;
+    }
+
+    .quiz-feedback.wrong {
+      display: block;
+      background-color: rgba(139, 38, 30, 0.18);
+      border-left: 3px solid var(--primary-red);
+      color: #FFCDD2;
+    }
+
+    .quiz-reset-btn {
+      display: block;
+      margin: 2.5rem auto 0;
+      background-color: transparent;
+      border: 1px solid var(--accent-gold);
+      color: var(--accent-gold);
+      padding: 10px 30px;
+      font-size: 1rem;
+      font-weight: 500;
+      border-radius: 3px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .quiz-reset-btn:hover {
+      background-color: var(--accent-gold);
+      color: var(--bg-dark);
+      box-shadow: 0 0 15px rgba(194, 155, 56, 0.4);
+    }
+
+    /* Footer */
+    footer {
+      background-color: #120D0B;
+      color: #7A7067;
+      text-align: center;
+      padding: 25px 20px;
+      font-size: 0.85rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    /* ==========================================================================
+       8. Responsive Design
+       ========================================================================== */
+    @media (max-width: 992px) {
+      .hero-title {
+        font-size: 2.8rem;
+      }
+      .background-grid {
+        grid-template-columns: 1fr;
+        gap: 2.5rem;
+      }
+      .bg-image-container {
+        height: 320px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .nav-links {
+        display: none; /* Can be toggled if menu expanded */
+      }
+      .mobile-menu-btn {
+        display: block;
+      }
+      .hero-title {
+        font-size: 2.2rem;
+      }
+      .hero-subtitle {
+        font-size: 1.05rem;
+      }
+      .section-title {
+        font-size: 1.9rem;
+      }
+      .timeline-nav {
+        flex-wrap: wrap;
+        gap: 40px 0;
+        justify-content: space-around;
+      }
+    }
+
+    /* 滾動段落跟隨高亮標籤 (Reader Focus Box) */
+    .scroll-focus-box {
+      position: fixed;
+      pointer-events: none;
+      border: 1px solid var(--accent-gold);
+      background-color: rgba(194, 155, 56, 0.08);
+      border-radius: 4px;
+      box-shadow: 0 0 15px rgba(194, 155, 56, 0.2);
+      z-index: 99;
+      opacity: 0;
+      transition: opacity 0.3s ease, transform 0.2s cubic-bezier(0.25, 1, 0.5, 1), width 0.2s ease, height 0.2s ease;
+    }
+
+    /* 滑鼠紅色跟隨圓形色塊 */
+    .cursor-follower {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 20px;
+      height: 20px;
+      background-color: var(--primary-red);
+      border: 1px solid #FF5555;
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9999;
+      transform: translate(-50%, -50%);
+      box-shadow: 0 0 14px rgba(139, 38, 30, 0.8);
+      transition: width 0.25s ease, height 0.25s ease, background-color 0.25s ease;
+    }
+
+    .cursor-follower.active {
+      width: 38px;
+      height: 38px;
+      background-color: #A62F26;
+      border-color: var(--accent-gold);
+      box-shadow: 0 0 20px rgba(194, 155, 56, 0.6);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 滾動跟隨聚焦框 -->
+  <div id="scrollFocusBox" class="scroll-focus-box"></div>
+
+  <!-- 滑鼠跟隨紅色圓形色塊 -->
+  <div id="cursorFollower" class="cursor-follower"></div>
+
+  <!-- 1. Fixed Navbar -->
+  <nav class="navbar">
+    <div class="container">
+      <div class="logo">
+        <i class="fa-solid fa-mountain-sun" style="color: var(--primary-red);"></i>
+        血色霧社 <span>1930</span>
+      </div>
+      <ul class="nav-links">
+        <li><a href="#hero">首頁</a></li>
+        <li><a href="#background">歷史背景</a></li>
+        <li><a href="#figures">關鍵人物</a></li>
+        <li><a href="#timeline">事件時間軸</a></li>
+        <li><a href="#reflection">歷史反思與小測驗</a></li>
+      </ul>
+      <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="選單">
+        <i class="fa-solid fa-bars"></i>
+      </button>
+    </div>
+  </nav>
+
+  <!-- 2. Hero Banner (Page Load Anime.js Animation) -->
+  <section id="hero" class="hero">
+    <div class="hero-content">
+      <div>
+        <span class="hero-tag hero-anim-item">臺灣歷史沉浸故事館</span>
+      </div>
+      <h1 class="hero-title hero-anim-item">霧社事件：歷史的烙印與反抗</h1>
+      <p class="hero-subtitle hero-anim-item">
+        1930 年 10 月 27 日，霧社公學校傳出陣陣槍響。<br>
+        這不單是一場突發的武力衝突，更是數十年結構性壓迫下，尊嚴與生存的悲壯抉擇。
+      </p>
+      <div class="hero-anim-item">
+        <button class="hero-btn" onclick="scrollToSection('background')">
+          <span>進入歷史現場</span>
+          <i class="fa-solid fa-arrow-down"></i>
+        </button>
+      </div>
+    </div>
+    <div class="scroll-indicator" onclick="scrollToSection('background')">
+      <i class="fa-solid fa-chevron-down"></i>
+    </div>
+  </section>
+
+  <!-- 3. Historical Background (Scroll-Triggered Anime.js Animation) -->
+  <section id="background" class="section-background">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">結構性的壓迫與積怨</h2>
+        <p class="section-subtitle">探索事件爆發前，日治時期理蕃政策下原住民族的集體困境</p>
+      </div>
+
+      <div class="background-grid">
+        <div class="bg-card reveal-card">
+          <h3><i class="fa-solid fa-shield-halved"></i> 隘勇線推進與山林資源剝奪</h3>
+          <p>
+            日治初期，臺灣總督府為了開發山林樟腦與樟木資源，積極推進「隘勇線」，運用電網、砲台與軍警力量深入原住民祖傳獵場。
+          </p>
+          <p>
+            賽德克族人被限制於特定區域，傳統獵場急劇縮減，使依存自然的傳統生活方式（Gaya）受到深刻衝擊。
+          </p>
+        </div>
+
+        <div class="bg-card reveal-card">
+          <h3><i class="fa-solid fa-hammer"></i> 勞役壓迫與文化禁忌破壞</h3>
+          <p>
+            霧社被日本官方視為「理蕃模範區」，推動大量建堂與道路工程。莫那·魯道領導的馬赫坡社等族人被迫承擔極其繁重的搬運木材勞役。
+          </p>
+          <p>
+            日本警察在勞務調配中常有不公與肢體侮辱，加上當地的婚俗、出草與紋面等文化傳統遭強制禁止，致使族人積怨日深。
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. Key Figures Section (Anime.js Micro-Interaction on Hover) -->
+  <section id="figures" class="section-figures">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">歷史的關鍵人物</h2>
+        <p class="section-subtitle">在命運交會的關鍵時刻，選擇捍衛部落尊嚴的靈魂</p>
+      </div>
+
+      <div class="figures-grid">
+        <!-- Figure Card 1: 莫那·魯道 (祖靈之眼幾何圖騰) -->
+        <div class="figure-card reveal-card" data-figure="mona">
+          <div class="figure-header">
+            <span class="figure-badge">起事領袖</span>
+            <svg width="120" height="120" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <!-- 賽德克/泰雅傳統菱形祖靈之眼圖騰 -->
+              <polygon points="50,10 90,50 50,90 10,50" stroke="#C29B38" stroke-width="3" fill="rgba(194, 155, 56, 0.1)"/>
+              <polygon points="50,22 78,50 50,78 22,50" stroke="#8B261E" stroke-width="2.5" fill="rgba(139, 38, 30, 0.25)"/>
+              <polygon points="50,34 66,50 50,66 34,50" fill="#C29B38"/>
+              <circle cx="50" cy="50" r="4" fill="#8B261E"/>
+              <line x1="50" y1="0" x2="50" y2="100" stroke="#8B261E" stroke-width="1.5" stroke-dasharray="3 3"/>
+              <line x1="0" y1="50" x2="100" y2="50" stroke="#8B261E" stroke-width="1.5" stroke-dasharray="3 3"/>
+            </svg>
+          </div>
+          <div class="figure-body">
+            <h3 class="figure-name">莫那·魯道</h3>
+            <div class="figure-identity">Mona Rudao (1865 – 1930)</div>
+            <p class="figure-quote">「如果文明是要我們卑躬屈膝，那我就讓你們看見野蠻的驕傲。」</p>
+            <p class="figure-desc">
+              馬赫坡社頭目。面對強大的日本軍警力量與族人文化的滅絕危機，他率領六社族人於公學校運動會發起反抗，最終於山洞中壯烈殉道。
+            </p>
+          </div>
+        </div>
+
+        <!-- Figure Card 2: 起事六社族人 (部落聯合圖騰) -->
+        <div class="figure-card reveal-card" data-figure="clan">
+          <div class="figure-header">
+            <span class="figure-badge">同盟六社</span>
+            <svg width="130" height="120" viewBox="0 0 120 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <!-- 六角陣列代表六個起事部落 -->
+              <g stroke="#C29B38" stroke-width="2" fill="rgba(139, 38, 30, 0.2)">
+                <polygon points="30,20 45,10 60,20 60,38 45,48 30,38"/>
+                <polygon points="60,20 75,10 90,20 90,38 75,48 60,38"/>
+                <polygon points="15,48 30,38 45,48 45,66 30,76 15,66"/>
+                <polygon points="45,48 60,38 75,48 75,66 60,76 45,66"/>
+                <polygon points="75,48 90,38 105,48 105,66 90,76 75,66"/>
+                <polygon points="45,76 60,66 75,76 75,94 60,104 45,94"/>
+              </g>
+              <circle cx="60" cy="57" r="8" fill="#8B261E" stroke="#C29B38" stroke-width="2"/>
+            </svg>
+          </div>
+          <div class="figure-body">
+            <h3 class="figure-name">起事六社族人</h3>
+            <div class="figure-identity">馬赫坡、波阿倫、荷歌、羅多夫、塔卡南、巴蘭</div>
+            <p class="figure-quote">「為了通過彩虹橋，必須以血洗淨恥辱。」</p>
+            <p class="figure-desc">
+              包括婦女與青年在內約1,200餘名族人參與。在事件發生後遭受日方軍隊火力圍剿，展現出堅韌的抵抗精神與悲壯宿命。
+            </p>
+          </div>
+        </div>
+
+        <!-- Figure Card 3: 花岡一郎與二郎 (日本警察旭日章 + 賽德克幾何紋樣) -->
+        <div class="figure-card reveal-card" data-figure="hanaoka">
+          <div class="figure-header">
+            <span class="figure-badge" style="background-color: var(--accent-gold);">夾縫抉擇</span>
+            <svg width="120" height="120" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <!-- 背景：日本警察旭日章 (旭日光芒) -->
+              <g stroke="rgba(211, 201, 184, 0.3)" stroke-width="1.5">
+                <line x1="50" y1="10" x2="50" y2="90"/>
+                <line x1="10" y1="50" x2="90" y2="50"/>
+                <line x1="22" y1="22" x2="78" y2="78"/>
+                <line x1="22" y1="78" x2="78" y2="22"/>
+              </g>
+              <circle cx="50" cy="50" r="28" fill="#1C1512" stroke="#C29B38" stroke-width="2"/>
+              <!-- 前景：日警太陽徽章與原住民菱形相互交疊 -->
+              <circle cx="50" cy="50" r="16" fill="#8B261E"/>
+              <polygon points="50,30 65,50 50,70 35,50" stroke="#F4F0E8" stroke-width="1.5" fill="none"/>
+              <circle cx="50" cy="50" r="5" fill="#C29B38"/>
+            </svg>
+          </div>
+          <div class="figure-body">
+            <h3 class="figure-name">花岡一郎與二郎</h3>
+            <div class="figure-identity">Dacis Nawi / Dakis Pawan</div>
+            <p class="figure-quote">「我們必須離開這個世界了…被日人逼迫，又受族人責難。」</p>
+            <p class="figure-desc">
+              接受日本教育的賽德克族警察。在族人起事時陷入嚴重的身分認同困境，最終於牆上留下遺書後雙雙自盡。
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. Interactive Timeline Section (Clickable Expansion Transitions) -->
+  <section id="timeline" class="section-timeline">
+    <div class="container">
+      <div class="section-header reveal-card">
+        <h2 class="section-title">事件發展時間軸</h2>
+        <p class="section-subtitle">點擊下方時間節點，探索霧社事件從醞釀、爆發至轉折的關鍵時刻</p>
+      </div>
+
+      <!-- Timeline Interactive Navigation -->
+      <div class="timeline-nav reveal-card">
+        <div class="timeline-line"></div>
+        <div class="timeline-progress" id="timelineProgress"></div>
+
+        <div class="timeline-node active" data-target="pane-1" onclick="switchTimeline(0)">
+          <i class="fa-solid fa-person-digging"></i>
+          <span class="node-label">1914 – 1920s</span>
+        </div>
+
+        <div class="timeline-node" data-target="pane-2" onclick="switchTimeline(1)">
+          <i class="fa-solid fa-wine-glass"></i>
+          <span class="node-label">1930 / 10 / 07</span>
+        </div>
+
+        <div class="timeline-node" data-target="pane-3" onclick="switchTimeline(2)">
+          <i class="fa-solid fa-flag"></i>
+          <span class="node-label">1930 / 10 / 27</span>
+        </div>
+
+        <div class="timeline-node" data-target="pane-4" onclick="switchTimeline(3)">
+          <i class="fa-solid fa-shield-cat"></i>
+          <span class="node-label">1930 / 11 – 12</span>
+        </div>
+
+        <div class="timeline-node" data-target="pane-5" onclick="switchTimeline(4)">
+          <i class="fa-solid fa-house-chimney-crack"></i>
+          <span class="node-label">1931 / 05</span>
+        </div>
+      </div>
+
+      <!-- Timeline Display Box -->
+      <div class="timeline-display" id="timelineDisplay">
+        <!-- Pane 1 -->
+        <div class="timeline-content-pane active" id="pane-1">
+          <span class="timeline-date">1914 – 1920 年代</span>
+          <h3 class="timeline-title">前兆：理蕃政策與積怨累積</h3>
+          <p class="timeline-body">
+            日本總督府於太魯閣討伐戰後，全面控制霧社地區。隨著建堂與木材運送等重勞役需求大增，部落男丁被迫長時間從事苦力。敬酒摩擦與勞資紛爭頻傳，部落內抗日情緒已降至冰點。
+          </p>
+          <div class="timeline-tags">
+            <span class="timeline-tag">隘勇線</span>
+            <span class="timeline-tag">勞務剝削</span>
+            <span class="timeline-tag">敬酒事件前夕</span>
+          </div>
+        </div>
+
+        <!-- Pane 2 -->
+        <div class="timeline-content-pane" id="pane-2">
+          <span class="timeline-date">1930 年 10 月 07 日</span>
+          <h3 class="timeline-title">導火線：敬酒事件（敬酒摩擦）</h3>
+          <p class="timeline-body">
+            莫那·魯道之子塔達歐·莫那在舉辦婚宴時，熱情邀請路過的日本警察吉村克己飲酒。吉村嫌棄塔達歐手上有動物血跡而揮杖打人，雙方發生肢體衝突。此事使馬赫坡社面臨迫切的官方報復危機。
+          </p>
+          <div class="timeline-tags">
+            <span class="timeline-tag">吉村警察</span>
+            <span class="timeline-tag">塔達歐·莫那</span>
+            <span class="timeline-tag">起事決心</span>
+          </div>
+        </div>
+
+        <!-- Pane 3 -->
+        <div class="timeline-content-pane" id="pane-3">
+          <span class="timeline-date">1930 年 10 月 27 日</span>
+          <h3 class="timeline-title">爆發：霧社公學校運動會起事</h3>
+          <p class="timeline-body">
+            趁著霧社公學校舉行聯合運動會、日本官吏集中的時刻，六社族人分頭襲擊駐在所並切斷電話線，隨後攻入公學校會場。事件震驚日本總督府，並迅速調集近千名軍警及山砲進行圍剿。
+          </p>
+          <div class="timeline-tags">
+            <span class="timeline-tag">公學校事件</span>
+            <span class="timeline-tag">全面武力升級</span>
+            <span class="timeline-tag">霧社戒嚴</span>
+          </div>
+        </div>
+
+        <!-- Pane 4 -->
+        <div class="timeline-content-pane" id="pane-4">
+          <span class="timeline-date">1930 年 11 – 12 月</span>
+          <h3 class="timeline-title">抵抗與慘烈鎮壓：馬赫坡岩窟戰</h3>
+          <p class="timeline-body">
+            日軍調集飛機投擲糜爛性毒氣彈，並運用「以蕃制蕃」策略動員親日部落。莫那·魯道與族人在馬赫坡溪谷岩窟進行艱苦游擊戰，最終數百名族人為避免受辱選擇於樹林縊首殉節。
+          </p>
+          <div class="timeline-tags">
+            <span class="timeline-tag">毒氣彈</span>
+            <span class="timeline-tag">馬赫坡岩窟</span>
+            <span class="timeline-tag">莫那·魯道殉道</span>
+          </div>
+        </div>
+
+        <!-- Pane 5 -->
+        <div class="timeline-content-pane" id="pane-5">
+          <span class="timeline-date">1931 年 05 月</span>
+          <h3 class="timeline-title">餘波：二次霧社事件與川中島強制遷居</h3>
+          <p class="timeline-body">
+            次年4月發生的「二次霧社事件」使倖存族人再遭重創。1931年5月初，日本官方將剩餘約290名的倖存族人強制遷移至「川中島」（今南投仁愛鄉清流部落），進行集中監控與集體耕作。
+          </p>
+          <div class="timeline-tags">
+            <span class="timeline-tag">二次霧社事件</span>
+            <span class="timeline-tag">川中島（清流部落）</span>
+            <span class="timeline-tag">歷史遺產</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. Conclusion & Historical Reflection -->
+  <section id="reflection" class="section-conclusion">
+    <div class="container">
+      <div class="conclusion-box">
+        <h2 class="section-title">歷史的迴響與深刻反思</h2>
+        <p class="conclusion-text">
+          霧社事件促使當時的殖民政府重新檢討「理蕃政策」，也向世人展現了臺灣原住民族面對同化壓迫時的強韌意志。<br>
+          今日回顧這段歷史，並非為了延續仇恨與對立，而是為了理解結構性壓迫的傷害，學會以多元同理的心態，維護土地上的尊嚴與和平。
+        </p>
+
+        <div class="references-box">
+          <h4><i class="fa-solid fa-book-bookmark"></i> 延伸閱讀與資料來源</h4>
+          <ul class="references-list">
+            <li>國立臺灣歷史博物館 — 《霧社事件線上歷史特展資料》</li>
+            <li>鄧相揚，《霧社事件：臺灣原住民的反抗與宿命》（玉山社）</li>
+            <li>中央研究院臺灣史研究所 — 日治時期原住民檔案暨圖像資料庫</li>
+            <li>魏德聖導演作品 — 歷史電影《賽德克·巴萊》</li>
+          </ul>
+        </div>
+
+        <!-- 隨堂小測驗區域 -->
+        <div class="quiz-container reveal-card">
+          <div class="quiz-header">
+            <div class="quiz-title">
+              <i class="fa-solid fa-graduation-cap"></i> 霧社事件歷史隨堂小測驗
+            </div>
+            <div class="quiz-score-badge">
+              目前得分：<span id="quizTotalScore">0</span> / 100 分
+            </div>
+          </div>
+
+          <div id="quizQuestionsArea">
+            <!-- 題目動態渲染於此 -->
+          </div>
+
+          <button class="quiz-reset-btn" onclick="resetQuiz()">
+            <i class="fa-solid fa-rotate-right"></i> 重新測驗
+          </button>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <p>© 2026 霧社事件歷史文化教學互動網站｜採用 Anime.js 說故事體驗設計</p>
+    </div>
+  </footer>
+
+  <!-- ==========================================================================
+     JavaScript: Anime.js & Decryption Text Effect Implementation
+     ========================================================================== -->
+  <script>
+    // Global State for Timeline
+    let currentTimelineIndex = 0;
+    const totalNodes = 5;
+
+    // Helper: Scroll to element smooth
+    function scrollToSection(id) {
+      const element = document.getElementById(id);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+
+    // ==========================================================================
+    // 微調：Scramble Text 解碼特效 (Refined Scramble Text Animation)
+    // ==========================================================================
+    function animateScrambleText(element, speed = 16) {
+      if (element.dataset.scrambled === 'true') return;
+      element.dataset.scrambled = 'true';
+
+      const originalText = element.textContent.trim();
+      const scrambleChars = 'アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホ#$@%&*§∆∇01░▒▓█「」『』';
+      let progress = 0;
+      
+      const originalHeight = element.offsetHeight;
+      element.style.minHeight = originalHeight ? originalHeight + 'px' : 'auto';
+
+      const interval = setInterval(() => {
+        element.textContent = originalText
+          .split('')
+          .map((char, index) => {
+            if (char === ' ' || char === '\n' || char === '，' || char === '。' || char === '（' || char === '）') {
+              return char;
+            }
+            if (index < progress) {
+              return originalText[index];
+            }
+            return scrambleChars[Math.floor(Math.random() * scrambleChars.length)];
+          })
+          .join('');
+
+        progress += 1.2;
+
+        if (progress >= originalText.length) {
+          clearInterval(interval);
+          element.textContent = originalText;
+          element.style.minHeight = '';
+        }
+      }, speed);
+    }
+
+    // ==========================================================================
+    // Intersection Observer for Scroll Animations & Decryption Trigger
+    // ==========================================================================
+    const revealObserver = new IntersectionObserver((entries, observer) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          anime({
+            targets: entry.target,
+            translateY: [40, 0],
+            opacity: [0, 1],
+            duration: 700,
+            easing: 'easeOutCubic',
+            complete: () => {
+              const paragraphs = entry.target.querySelectorAll('p');
+              paragraphs.forEach((p, idx) => {
+                setTimeout(() => {
+                  animateScrambleText(p, 16);
+                }, idx * 120);
+              });
+            }
+          });
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15 });
+
+    // Observe Hero Elements on Load
+    window.addEventListener('DOMContentLoaded', () => {
+      anime({
+        targets: '.hero-anim-item',
+        translateY: [30, 0],
+        opacity: [0, 1],
+        delay: anime.stagger(200, { start: 300 }),
+        duration: 900,
+        easing: 'easeOutCubic'
+      });
+
+      document.querySelectorAll('.reveal-card').forEach(el => {
+        revealObserver.observe(el);
+      });
+
+      // 初始化隨堂測驗
+      initQuiz();
+    });
+
+    // Special observer for Timeline display box auto-show & text scramble
+    const timelineDisplayBox = document.getElementById('timelineDisplay');
+    if (timelineDisplayBox) {
+      const timelineObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            anime({
+              targets: timelineDisplayBox,
+              translateY: [30, 0],
+              opacity: [0, 1],
+              duration: 800,
+              easing: 'easeOutCubic',
+              complete: () => {
+                const activePane = timelineDisplayBox.querySelector('.timeline-content-pane.active');
+                if (activePane) {
+                  anime({
+                    targets: activePane,
+                    opacity: [0, 1],
+                    translateY: [10, 0],
+                    duration: 400,
+                    easing: 'easeOutQuad',
+                    complete: () => {
+                      const p = activePane.querySelector('.timeline-body');
+                      if (p) animateScrambleText(p, 16);
+                    }
+                  });
+                }
+              }
+            });
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.2 });
+
+      timelineObserver.observe(timelineDisplayBox);
+    }
+
+    // ==========================================================================
+    // EFFECT 3: Hover Anime.js Micro-Interactions on Key Figure Cards
+    // ==========================================================================
+    const figureCards = document.querySelectorAll('.figure-card');
+
+    figureCards.forEach(card => {
+      card.addEventListener('mouseenter', () => {
+        anime({
+          targets: card,
+          scale: 1.025,
+          translateY: -6,
+          boxShadow: '0 16px 32px rgba(44, 34, 30, 0.18)',
+          duration: 300,
+          easing: 'easeOutQuad'
+        });
+      });
+
+      card.addEventListener('mouseleave', () => {
+        anime({
+          targets: card,
+          scale: 1.0,
+          translateY: 0,
+          boxShadow: '0 4px 12px rgba(44, 34, 30, 0.08)',
+          duration: 300,
+          easing: 'easeOutQuad'
+        });
+      });
+    });
+
+    // ==========================================================================
+    // EFFECT 4: Interactive Timeline Click & Expansion Transition
+    // ==========================================================================
+    function switchTimeline(index) {
+      if (index === currentTimelineIndex) return;
+
+      const nodes = document.querySelectorAll('.timeline-node');
+      const panes = document.querySelectorAll('.timeline-content-pane');
+      const progress = document.getElementById('timelineProgress');
+
+      nodes[currentTimelineIndex].classList.remove('active');
+      nodes[index].classList.add('active');
+
+      anime({
+        targets: nodes[index],
+        scale: [1, 1.25, 1],
+        duration: 450,
+        easing: 'easeInOutQuad'
+      });
+
+      const percentage = (index / (totalNodes - 1)) * 100;
+      progress.style.width = percentage + '%';
+
+      const currentPane = panes[currentTimelineIndex];
+      const targetPane = panes[index];
+
+      anime({
+        targets: currentPane,
+        opacity: [1, 0],
+        translateY: [0, -15],
+        duration: 250,
+        easing: 'easeInQuad',
+        complete: () => {
+          currentPane.classList.remove('active');
+          targetPane.classList.add('active');
+
+          const bodyText = targetPane.querySelector('.timeline-body');
+          if (bodyText) bodyText.dataset.scrambled = 'false';
+
+          anime({
+            targets: targetPane,
+            opacity: [0, 1],
+            translateY: [20, 0],
+            duration: 400,
+            easing: 'easeOutQuad',
+            complete: () => {
+              if (bodyText) animateScrambleText(bodyText, 16);
+            }
+          });
+        }
+      });
+
+      currentTimelineIndex = index;
+    }
+
+    // ==========================================================================
+    // EFFECT 5: Mouse Wheel / Scroll Control for Timeline Switching
+    // ==========================================================================
+    const timelineSection = document.getElementById('timeline');
+    let isScrollCooldown = false;
+
+    if (timelineSection) {
+      timelineSection.addEventListener('wheel', (e) => {
+        if (isScrollCooldown) return;
+
+        if (e.deltaY > 0 && currentTimelineIndex < totalNodes - 1) {
+          e.preventDefault();
+          switchTimeline(currentTimelineIndex + 1);
+          triggerCooldown();
+        } 
+        else if (e.deltaY < 0 && currentTimelineIndex > 0) {
+          e.preventDefault();
+          switchTimeline(currentTimelineIndex - 1);
+          triggerCooldown();
+        }
+      }, { passive: false });
+    }
+
+    function triggerCooldown() {
+      isScrollCooldown = true;
+      setTimeout(() => {
+        isScrollCooldown = false;
+      }, 700);
+    }
+
+    // ==========================================================================
+    // EFFECT 6: Hero Parallax & Reader Focus Box
+    // ==========================================================================
+    const focusBox = document.getElementById('scrollFocusBox');
+
+    function updateReaderFocus() {
+      const scrollY = window.scrollY;
+      const heroTag = document.querySelector('.hero-tag');
+      const heroContent = document.querySelector('.hero-content');
+      const heroHeight = document.querySelector('.hero')?.offsetHeight || 600;
+
+      if (scrollY <= heroHeight) {
+        if (heroTag) {
+          heroTag.style.transform = `translateY(${scrollY * 0.45}px)`;
+          heroTag.style.opacity = Math.max(0, 1 - (scrollY / (heroHeight * 0.5)));
+        }
+        if (heroContent) {
+          heroContent.style.transform = `translateY(${scrollY * 0.25}px)`;
+          heroContent.style.opacity = Math.max(0, 1 - (scrollY / (heroHeight * 0.8)));
+        }
+      }
+
+      const targets = document.querySelectorAll('.bg-card p, .figure-card .figure-desc, .timeline-body');
+      let currentActiveEl = null;
+      const viewportCenter = window.innerHeight / 2;
+
+      targets.forEach(el => {
+        const rect = el.getBoundingClientRect();
+        if (rect.top <= viewportCenter + 80 && rect.bottom >= viewportCenter - 100) {
+          currentActiveEl = el;
+        }
+      });
+
+      if (currentActiveEl && focusBox) {
+        const rect = currentActiveEl.getBoundingClientRect();
+        const padding = 8;
+        
+        focusBox.style.width = `${rect.width + padding * 2}px`;
+        focusBox.style.height = `${rect.height + padding * 2}px`;
+        focusBox.style.transform = `translate(${rect.left - padding}px, ${rect.top - padding}px)`;
+        focusBox.style.opacity = '1';
+      } else if (focusBox) {
+        focusBox.style.opacity = '0';
+      }
+    }
+
+    window.addEventListener('scroll', updateReaderFocus);
+    window.addEventListener('resize', updateReaderFocus);
+
+    // ==========================================================================
+    // EFFECT 7: Cursor Follower
+    // ==========================================================================
+    const cursorFollower = document.getElementById('cursorFollower');
+    if (cursorFollower) {
+      let mouseX = 0;
+      let mouseY = 0;
+      let currentX = 0;
+      let currentY = 0;
+
+      window.addEventListener('mousemove', (e) => {
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+      });
+
+      function animateCursor() {
+        currentX += (mouseX - currentX) * 0.15;
+        currentY += (mouseY - currentY) * 0.15;
+
+        cursorFollower.style.left = `${currentX}px`;
+        cursorFollower.style.top = `${currentY}px`;
+
+        requestAnimationFrame(animateCursor);
+      }
+      animateCursor();
+
+      const clickables = document.querySelectorAll('a, button, .timeline-node, .figure-card, .scroll-indicator, .quiz-option-btn');
+      clickables.forEach(el => {
+        el.addEventListener('mouseenter', () => cursorFollower.classList.add('active'));
+        el.addEventListener('mouseleave', () => cursorFollower.classList.remove('active'));
+      });
+    }
+
+    // ==========================================================================
+    // 8. Quiz System & Confetti Trigger
+    // ==========================================================================
+    const quizData = [
+      {
+        question: "1. 1930 年爆發的「霧社事件」，主要發起者是賽德克族的哪一位頭目？",
+        options: ["莫那·魯道", "巴達歐·莫那", "花岡一郎", "鐵木·瓦力斯"],
+        correct: 0,
+        explanation: "莫那·魯道為馬赫坡社頭目，亦是號召賽德克同盟六社發起抗日行動的主導領袖。"
+      },
+      {
+        question: "2. 導致莫那·魯道與族人決心起事的重要直接導火線「敬酒事件」，發生於何時？",
+        options: ["1914 年太魯閣戰役時", "1930 年 10 月 7 日", "1930 年 10 月 27 日", "1931 年 5 月"],
+        correct: 1,
+        explanation: "1930年10月7日，莫那·魯道之子塔達歐·莫那於婚宴敬酒時遭日本警察吉村克己揮杖毆打，引發後續衝突。"
+      },
+      {
+        question: "3. 賽德克族人選擇於 1930 年 10 月 27 日發動武力起事的關鍵場合為何？",
+        options: ["馬赫坡社獵場祭典", "日本軍警山林巡視時", "霧社公學校聯合運動會", "川中島集會"],
+        correct: 2,
+        explanation: "族人利用霧社公學校舉辦聯合運動會、日本官吏與軍警集中出席的時機發起突襲。"
+      },
+      {
+        question: "4. 霧社事件後，日本官方將僅存的倖存族人（約 290 餘人）強制遷移至何處進行集中監控？",
+        options: ["川中島（今清流部落）", "太魯閣峽谷", "馬赫坡溪谷岩窟", "埔里鎮"],
+        correct: 0,
+        explanation: "次年（1931年）5月，日本官方將剩餘族人強制移居至「川中島」（今南投縣仁愛鄉清流部落）。"
+      }
+    ];
+
+    let currentScore = 0;
+    let answeredCount = 0;
+    let userAnswers = {};
+
+    function initQuiz() {
+      const area = document.getElementById('quizQuestionsArea');
+      if (!area) return;
+
+      area.innerHTML = '';
+      currentScore = 0;
+      answeredCount = 0;
+      userAnswers = {};
+      document.getElementById('quizTotalScore').textContent = '0';
+
+      quizData.forEach((item, qIdx) => {
+        const card = document.createElement('div');
+        card.className = 'quiz-card';
+        card.id = `quizCard-${qIdx}`;
+
+        const optionsHTML = item.options.map((opt, oIdx) => `
+          <button class="quiz-option-btn" onclick="selectAnswer(${qIdx}, ${oIdx})">
+            <i class="fa-regular fa-circle"></i>
+            <span>${opt}</span>
+          </button>
+        `).join('');
+
+        card.innerHTML = `
+          <span class="quiz-question-num">配分：25 分</span>
+          <div class="quiz-question-text">${item.question}</div>
+          <div class="quiz-options">${optionsHTML}</div>
+          <div class="quiz-feedback" id="feedback-${qIdx}"></div>
+        `;
+
+        area.appendChild(card);
+      });
+    }
+
+    function selectAnswer(qIdx, optionIdx) {
+      if (userAnswers[qIdx] !== undefined) return; // 防止重複作答
+
+      userAnswers[qIdx] = optionIdx;
+      answeredCount++;
+
+      const card = document.getElementById(`quizCard-${qIdx}`);
+      const buttons = card.querySelectorAll('.quiz-option-btn');
+      const feedback = document.getElementById(`feedback-${qIdx}`);
+      const isCorrect = optionIdx === quizData[qIdx].correct;
+
+      buttons.forEach((btn, idx) => {
+        btn.disabled = true;
+        if (idx === quizData[qIdx].correct) {
+          btn.classList.add('selected-correct');
+          btn.querySelector('i').className = 'fa-solid fa-circle-check';
+        } else if (idx === optionIdx) {
+          btn.classList.add('selected-wrong');
+          btn.querySelector('i').className = 'fa-solid fa-circle-xmark';
+        }
+      });
+
+      if (isCorrect) {
+        currentScore += 25;
+        card.classList.add('answered-correct');
+        feedback.className = 'quiz-feedback correct';
+        feedback.innerHTML = `<i class="fa-solid fa-check"></i> <b>回答正確！(+25分)</b><br>${quizData[qIdx].explanation}`;
+      } else {
+        card.classList.add('answered-wrong');
+        feedback.className = 'quiz-feedback wrong';
+        feedback.innerHTML = `<i class="fa-solid fa-xmark"></i> <b>回答錯誤</b><br>${quizData[qIdx].explanation}`;
+      }
+
+      // 動畫累加分數顯示
+      anime({
+        targets: '#quizTotalScore',
+        innerHTML: [parseInt(document.getElementById('quizTotalScore').textContent), currentScore],
+        round: 1,
+        easing: 'easeOutExpo',
+        duration: 600
+      });
+
+      // 檢查是否達滿分 100 分並噴發彩帶
+      if (currentScore === 100) {
+        triggerConfetti();
+      }
+    }
+
+    function resetQuiz() {
+      initQuiz();
+    }
+
+    // Canvas Confetti 滿分噴發效果
+    function triggerConfetti() {
+      if (typeof confetti === 'function') {
+        const duration = 3.5 * 1000;
+        const animationEnd = Date.now() + duration;
+        const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 9999 };
+
+        const interval = setInterval(function() {
+          const timeLeft = animationEnd - Date.now();
+
+          if (timeLeft <= 0) {
+            return clearInterval(interval);
+          }
+
+          const particleCount = 50 * (timeLeft / duration);
+          confetti({ ...defaults, particleCount, origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 } });
+          confetti({ ...defaults, particleCount, origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 } });
+        }, 250);
+      }
+    }
+
+    function randomInRange(min, max) {
+      return Math.random() * (max - min) + min;
+    }
+  </script>
+</body>
+</html>
